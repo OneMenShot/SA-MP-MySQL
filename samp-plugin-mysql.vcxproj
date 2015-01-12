@@ -68,6 +68,9 @@
     </Link>
     <PostBuildEvent>
     </PostBuildEvent>
+    <PostBuildEvent>
+      <Command>COPY "$(TargetPath)" "C:\Users\Alex\SA-MP\mysql-plugin\plugins\"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -91,6 +94,9 @@
       <SubSystem>Console</SubSystem>
     </Link>
     <PostBuildEvent>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Command>COPY "$(TargetPath)" "C:\Users\Alex\SA-MP\mysql-plugin\plugins\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
