@@ -9,7 +9,7 @@ list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 
 #include(CheckIncludeFile)
 
-find_package(MySQLCConnector 6.1.5 REQUIRED)
+find_package(MySQLCConnector 5.5.40 REQUIRED)
 
 set(Boost_USE_STATIC_LIBS ON)
 find_package(Boost 1.57 REQUIRED 
