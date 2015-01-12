@@ -1,11 +1,9 @@
-cmake_policy(SET CMP0054 OLD)
-
 function(add_plugin name)
   add_library(${name} MODULE ${ARGN})
 
   set_target_properties(${name} PROPERTIES PREFIX "")
 
-  if(CMAKE_COMPILER_IS_GNUCC OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+  if(CMAKE_COMPILER_IS_GNUCC OR ${CMAKE_CXX_COMPILER_ID} EQUAL Clang)
     set_property(TARGET ${name} APPEND_STRING PROPERTY COMPILE_FLAGS " -m32")
     set_property(TARGET ${name} APPEND_STRING PROPERTY LINK_FLAGS    " -m32")
   endif()
@@ -15,7 +13,7 @@ function(add_plugin name)
                  COMPILE_FLAGS " -Wno-attributes")
   endif()
 
-  if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+  if(${CMAKE_CXX_COMPILER_ID} EQUAL Clang)
     set_property(TARGET ${name} APPEND_STRING PROPERTY
                  COMPILE_FLAGS " -Wno-ignored-attributes")
   endif()

@@ -14,6 +14,6 @@ find_package(Boost 1.57 REQUIRED
 	COMPONENTS thread chrono date_time system atomic filesystem)
 
 include_directories("${Boost_INCLUDE_DIR}" "${MYSQLCCONNECTOR_INCLUDE_DIR}")
-link_directories("${Boost_LIBRARY_DIRS}" "${MYSQLCCONNECTOR_LIBRARY_DIR}")
+link_directories("${Boost_LIBRARY_DIRS}")
 
 add_subdirectory(src)

@@ -3,7 +3,8 @@
 #
 #  MYSQLCCONNECTOR_FOUND - system has MySQL-C-Connector
 #  MYSQLCCONNECTOR_INCLUDE_DIR - MySQL-C-Connector include directories
-#  MYSQLCCONNECTOR_LIBRARY_DIR - MySQL-C-Connector libraries directories
+#  MYSQLCCONNECTOR_LIBRARY - MySQL-C-Connector library
+#  MYSQLCCONNECTOR_LIBRARY_STATIC - MySQL-C-Connector static library (Linux only)
 #
 # The user may wish to set, in the CMake GUI or otherwise, this variable:
 #  MYSQLCCONNECTOR_ROOT_DIR - path to start searching for the module
@@ -19,19 +20,17 @@ if(WIN32)
     find_path(
 		MYSQLCCONNECTOR_INCLUDE_DIR
 		NAMES
-		mysql_version.h
-		PATHS
-		"C:\\Program Files"
+		"mysql_version.h"
 		HINTS
 		${MYSQLCCONNECTOR_ROOT_DIR}
 		PATH_SUFFIXES
 		include
 	)
 
-    find_path(
-		MYSQLCCONNECTOR_LIBRARY_DIR
+    find_library(
+		MYSQLCCONNECTOR_LIBRARY
 		NAMES
-		libmysql.lib
+		"libmysql.lib"
 		HINTS
 		${MYSQLCCONNECTOR_ROOT_DIR}
 		PATH_SUFFIXES
@@ -40,21 +39,30 @@ if(WIN32)
 else()
     find_path(
 		MYSQLCCONNECTOR_INCLUDE_DIR
-		mysql_version.h
+		NAMES
+		"mysql_version.h"
+		PATHS
+		"/usr/include"
 		HINTS
 		${MYSQLCCONNECTOR_ROOT_DIR}
 		PATH_SUFFIXES
-		include
+		mysql
 	)
 
     find_library(
-		MYSQLCCONNECTOR_LIBRARY_DIR
-		NAMES
-		mysqlclient
+		MYSQLCCONNECTOR_LIBRARY
+		NAME
+		"libmysqlclient_r.so"
 		HINTS
 		${MYSQLCCONNECTOR_ROOT_DIR}
-		PATH_SUFFIXES
-		lib
+	)
+	
+    find_library(
+		MYSQLCCONNECTOR_LIBRARY_STATIC
+		NAME
+		"libmysqlclient.a"
+		HINTS
+		${MYSQLCCONNECTOR_ROOT_DIR}
 	)
 endif()
 
@@ -91,7 +99,8 @@ endif()
 
 mark_as_advanced(
 	MYSQLCCONNECTOR_INCLUDE_DIR
-	MYSQLCCONNECTOR_LIBRARY_DIR
+	MYSQLCCONNECTOR_LIBRARY
+	MYSQLCCONNECTOR_LIBRARY_STATIC
 )
 
 include(FindPackageHandleStandardArgs)
@@ -99,8 +108,8 @@ find_package_handle_standard_args(
 	MySQLCConnector
 	REQUIRED_VARS
 		MYSQLCCONNECTOR_INCLUDE_DIR
-		MYSQLCCONNECTOR_LIBRARY_DIR
-		MYSQLCCONNECTOR_VERSION_ID
+		MYSQLCCONNECTOR_LIBRARY
+		MYSQLCCONNECTOR_VERSION
 	VERSION_VAR
 		MYSQLCCONNECTOR_VERSION
 )

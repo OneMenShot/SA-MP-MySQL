@@ -2,7 +2,9 @@ include(AmxConfig)
 include(Plugin)
 include(FindSDK)
 
-option(BUILD_STATIC "Build static library" OFF)
+if(NOT WIN32)
+	option(BUILD_STATIC "Build static library" OFF)
+endif()
 
 set(SAMP_SDK_DIR "../libs")
 find_package(SDK REQUIRED)
@@ -31,9 +33,9 @@ add_plugin(mysql
 )
 
 if(MSVC)
-	target_compile_definitions(mysql PUBLIC _CRT_SECURE_NO_WARNINGS NOMINMAX)
+	add_definitions(-D_CRT_SECURE_NO_WARNINGS -DNOMINMAX)
 endif()
-target_compile_definitions(mysql PUBLIC DLL_EXPORTS)
+add_definitions(-DDLL_EXPORTS)
 
 if(NOT WIN32) #we have auto-linking on Windows
 	target_link_libraries(mysql
@@ -44,16 +46,16 @@ if(NOT WIN32) #we have auto-linking on Windows
 		boost_atomic
 		boost_filesystem
 	)
-	if(BUILD_STATIC)
-		add_library(libmysql STATIC IMPORTED)
-	else()
-		add_library(libmysql SHARED IMPORTED)
-	endif()
 endif()
-target_link_libraries(mysql libmysql)
 
-install(TARGETS mysql DESTINATION plugins/)
-install(FILES "../a_mysql.inc" DESTINATION pawno/include/)
+if(BUILD_STATIC)
+	target_link_libraries(mysql "${MYSQLCCONNECTOR_LIBRARY_STATIC}")
+else()
+	target_link_libraries(mysql "${MYSQLCCONNECTOR_LIBRARY}")
+endif()
+
+install(TARGETS mysql DESTINATION "plugins/")
+install(FILES "../a_mysql.inc" DESTINATION "pawno/include/")
 
 set(CPACK_PACKAGE_VERSION ${MYSQL_PLUGIN_VERSION})
 if(WIN32)
