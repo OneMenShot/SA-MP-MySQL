@@ -8,10 +8,8 @@ option (BUILD_TESTS "Build tests" OFF)
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 
 if(UNIX)
-	#force C++11 flag
-	list(APPEND CMAKE_CXX_FLAGS "-std=c++11")
-	#force 32bit compilation
-	list(APPEND CMAKE_CXX_FLAGS "-m32")
+	#force C++11 flag and 32bit compilation
+	set(CMAKE_CXX_FLAGS "-m32 -std=c++11")
 endif()
 
 #compiler with C++11 support required
