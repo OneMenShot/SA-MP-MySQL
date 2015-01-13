@@ -75,9 +75,19 @@ endif()
 
 find_package(MySQLCConnector 5.5.40 REQUIRED)
 
+
 set(Boost_USE_STATIC_LIBS ON)
-find_package(Boost 1.57 REQUIRED 
+
+find_package(Boost 1.57 QUIET 
 	COMPONENTS atomic chrono date_time filesystem system thread)
+
+if(NOT Boost_FOUND)
+	set(BOOST_ROOT "${BOOST_ROOT}" CACHE PATH "Set the Boost root folder.")
+	set(BOOST_LIBRARYDIR "${BOOST_LIBRARYDIR}" CACHE PATH "Set the Boost library folder.")
+	mark_as_advanced(CLEAR BOOST_ROOT BOOST_LIBRARYDIR)
+	message(FATAL_ERROR "Could NOT find Boost; specify additional paths.")
+endif()
+mark_as_advanced(BOOST_ROOT BOOST_LIBRARYDIR Boost_DIR)
 
 
 include_directories("${Boost_INCLUDE_DIR}" "${MYSQLCCONNECTOR_INCLUDE_DIR}")
