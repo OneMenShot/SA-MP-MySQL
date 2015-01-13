@@ -9,7 +9,8 @@ endif()
 set(SAMP_SDK_DIR "../libs")
 find_package(SDK REQUIRED)
 
-include_directories("${SDK_INCLUDE_DIR}")
+set(MYSQL_PLUGIN_CONFIG_INCLUDE_DIR "${CMAKE_CURRENT_BINARY_DIR}/config_headers")
+include_directories("${SDK_INCLUDE_DIR}" "${MYSQL_PLUGIN_CONFIG_INCLUDE_DIR}")
 
 set(CMAKE_DEBUG_POSTFIX "_d")
 
@@ -21,7 +22,7 @@ configure_file(
 
 configure_file(
 	"version.hpp.in"
-	"version.hpp"
+	"${MYSQL_PLUGIN_CONFIG_INCLUDE_DIR}/version.hpp"
 	@ONLY
 )
 
@@ -42,7 +43,6 @@ add_plugin(mysql
 	CScripting.cpp
 	main.cpp
 	misc.cpp
-	${CMAKE_CURRENT_BINARY_DIR}/version.hpp
 	plugin.def
 )
 
