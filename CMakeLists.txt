@@ -77,7 +77,7 @@ find_package(MySQLCConnector 5.5.40 REQUIRED)
 
 set(Boost_USE_STATIC_LIBS ON)
 find_package(Boost 1.57 REQUIRED 
-	COMPONENTS thread chrono date_time system atomic filesystem)
+	COMPONENTS atomic chrono date_time filesystem system thread)
 
 
 include_directories("${Boost_INCLUDE_DIR}" "${MYSQLCCONNECTOR_INCLUDE_DIR}")

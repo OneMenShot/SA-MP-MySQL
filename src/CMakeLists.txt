@@ -37,14 +37,14 @@ if(MSVC)
 endif()
 add_definitions(-DDLL_EXPORTS)
 
-if(NOT WIN32) #we have auto-linking on Windows
+if(NOT MSVC) #we have auto-linking in Visual Studio
 	target_link_libraries(mysql
-		boost_thread
-		boost_chrono
-		boost_date_time
-		boost_system
-		boost_atomic
-		boost_filesystem
+		"${Boost_ATOMIC_LIBRARY}"
+		"${Boost_CHRONO_LIBRARY}"
+		"${Boost_DATE_TIME_LIBRARY}"
+		"${Boost_FILESYSTEM_LIBRARY}"
+		"${Boost_SYSTEM_LIBRARY}"
+		"${Boost_THREAD_LIBRARY}"
 	)
 endif()
 
