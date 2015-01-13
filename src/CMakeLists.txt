@@ -13,6 +13,19 @@ include_directories("${SDK_INCLUDE_DIR}")
 
 set(CMAKE_DEBUG_POSTFIX "_d")
 
+configure_file(
+	"../a_mysql.inc.in"
+	"a_mysql.inc"
+	@ONLY
+)
+
+configure_file(
+	"version.hpp.in"
+	"version.hpp"
+	@ONLY
+)
+
+
 add_plugin(mysql 
 	${SDK_INCLUDE_DIR}/amxplugin.cpp
 	${SDK_INCLUDE_DIR}/amxplugin2.cpp
@@ -29,6 +42,7 @@ add_plugin(mysql
 	CScripting.cpp
 	main.cpp
 	misc.cpp
+	${CMAKE_CURRENT_BINARY_DIR}/version.hpp
 	plugin.def
 )
 
@@ -55,7 +69,7 @@ else()
 endif()
 
 install(TARGETS mysql DESTINATION "plugins/")
-install(FILES "../a_mysql.inc" DESTINATION "pawno/include/")
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/a_mysql.inc" DESTINATION "pawno/include/")
 
 set(CPACK_PACKAGE_VERSION ${MYSQL_PLUGIN_VERSION})
 if(WIN32)
